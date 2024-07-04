@@ -36,6 +36,28 @@ def show_earthquake(id):
         status = 404
 
     return make_response(body, status)
+
+@app.route('/earthquakes/magnitude/<float:magnitude>')
+def show_earthquake_magnitudes(magnitude):
+    earthquakes = []
+    for earthquake in Earthquake.query.filter(Earthquake.magnitude >= magnitude).all():
+        earthquake_dict = {
+            'id': earthquake.id,
+            'location': earthquake.location,
+            'magnitude': earthquake.magnitude,
+            'year': earthquake.year
+        }
+        earthquakes.append(earthquake_dict)
+    body = {
+        'count': len(earthquakes),
+        'quakes': earthquakes
+    }
+    return make_response(body, 200)
+
+    
+    
+    
+
          
          
     
